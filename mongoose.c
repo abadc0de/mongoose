@@ -4019,14 +4019,14 @@ static struct mg_lsp_ob *lsp_get_ob(lua_State *L) {
   struct mg_lsp_ob *ob;
   int top = lua_gettop(L);
   lua_pushstring(L, "mg_lsp_ob");
-  lua_gettable(L, LUA_REGISTRYINDEX);
+  lua_rawget(L, LUA_REGISTRYINDEX);
   ob = lua_touserdata(L, -1);
   if (ob == NULL) {
     ob = malloc(sizeof(*ob)); // freed at end of handle_lsp_request
     ob->depth = 0;
     lua_pushstring(L, "mg_lsp_ob");
     lua_pushlightuserdata(L, ob);
-    lua_settable(L, LUA_REGISTRYINDEX);
+    lua_rawset(L, LUA_REGISTRYINDEX);
   }
   lua_settop(L, top);
   return ob;
